@@ -15,6 +15,60 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid RowDefinitions="Auto, *, Auto" Margin="20">
+        <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="1" Padding="10">
+            <StackPanel Spacing="10" Orientation="Horizontal">
+                <TextBlock Text="Search" VerticalAlignment="Center"/>
+                <TextBox/>
+                <Button Content="Enter"/>
+            </StackPanel>
+        </Border>
+            <Grid Grid.Row="1"  ColumnDefinitions="Auto, *">
+                <Border Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Padding="10">
+                    <StackPanel Spacing="10">
+                        <TextBlock Text="Product list:"/>
+                        <ScrollViewer>
+                            <ItemsControl ItemsSource="{Binding Products}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Content="{Binding Name}"
+                                                HorizontalAlignment="Stretch"
+                                                HorizontalContentAlignment="Left"
+                                                Margin="0,0,0,8"
+                                                Command="{Binding $parent[ItemsControl].((vm:MainWindowViewModel)DataContext).SelectProductCommand}"
+                                                CommandParameter="{Binding}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Padding="10">
+                    <Grid RowDefinitions="Auto, Auto , *" RowSpacing="10">
+                        <TextBlock Grid.Row="0" Text="Product card"/>
+                        <Grid Grid.Row="1" RowDefinitions="Auto, Auto, Auto, Auto" ColumnDefinitions="Auto, *" RowSpacing="10" ColumnSpacing="10">
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Name:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name, Mode=TwoWay}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Articular:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Articular, Mode=TwoWay}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Cost:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Cost, Mode=TwoWay}"/>
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Quantity:" VerticalAlignment="Center"/>
+                            <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Quantity, Mode=TwoWay}"/>
+                        </Grid>
+                        <StackPanel Grid.Row="2" Spacing="10">
+                            <TextBlock Text="Description:"/>
+                            <TextBox AcceptsReturn="True" TextWrapping="Wrap" MinHeight="120" Text="{Binding Description, Mode=TwoWay}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="1" Padding="10">
+            <StackPanel Spacing="10" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Delete" Command="{Binding DeleteCommand}"/>
+                <Button Content="Save" Command="{Binding SaveCommand}"/>
+            </StackPanel>
+        </Border>
+    </Grid>
 
 </Window>
